@@ -24,7 +24,7 @@ That's it! Your RabbitMQ cluster should now be running in AWS.
 
 
 
-## Steps | Login to the RabbitMQ Admin console
+## Steps | Login to the RabbitMQ Admin Console
 
 The last thing **`terraform apply`** prints out are
 
@@ -55,17 +55,32 @@ The 3 layers and the key technologies that feature within them are
 - the **instance configuration layer** - either vanilla ec2 or auto-scaling instances
 - the **network configuration layer** - vpc (subnets++), load balancers and security groups
 
-### What goes in which Layer
+### What does each layer know? Who does it tell?
 
-The ec2 instance layer is at the centre of it all. Its own configuration states the **instance type**, storage and so on.
+The ec2 instance layer is central. Whoever calls it knows which **instance type** to use, **which AMI to boot from**, the storage size and so on.
 
-The **service** configuration **layer tells** the instance layer
+### What 2 things does the service layer tell the instance layer?
 
-- this is the **AMI to boot** from
+The layer responsible for configuring services **tells the instance layer** two things.
+
 - **configure yourself with this user-data** (cloud-config yaml or systemd unit ignition configs)
-- this is the **number of instances** to boot
+- boot up this **number of instances**
 
-Before the service layer gets a chance to speak, the **network layer tells each instance** which VPC, subnet and availability zone it should join. It also configures gateways and routes, it creates security group rules and components that will balance the burden of incoming requests.
+### What the network layer tells the instance layer?
+
+The network layer says to the instance layer
+
+- wake up in this VPC (and subnet) in this availability zone
+- use this security group to prohibit certain types of traffic
+
+By virtue of the subnet it lives in, the instance is assured of routes, gateways, DNS, DHCP and address translators so that it can access the internet.
+
+### What the instance layer gives the network layer?
+
+Finally the instance layer gives the network layer a string of IP addresses which are connected to the back-end of a load balancer.
+
+
+---
 
 
 ## everything is a cluster

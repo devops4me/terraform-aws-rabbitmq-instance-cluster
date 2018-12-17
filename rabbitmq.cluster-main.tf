@@ -26,7 +26,7 @@ module ec2-instance-cluster
     in_node_count         = "${ var.in_initial_node_count }"
     in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
     in_security_group_ids = [ "${ module.security-group.out_security_group_id }" ]
-    in_ami_id             = "${ module.rabbitmq-ignition-config.out_ami_id }"
+    in_ami_id             = "${ module.coreos-ami-id.out_ami_id }"
     in_user_data          = "${ module.rabbitmq-ignition-config.out_ignition_config }"
 
     in_route_dependency   = "${ module.vpc-network.out_outgoing_routes }"
@@ -181,4 +181,16 @@ module security-group
 module resource-tags
 {
     source = "github.com/devops4me/terraform-aws-resource-tags"
+}
+
+
+/*
+ | --
+ | -- This module dynamically acquires the HVM CoreOS AMI ID for the region that
+ | -- this infrastructure is built in (specified by the AWS credentials in play).
+ | --
+*/
+module coreos-ami-id
+{
+    source = "github.com/devops4me/terraform-aws-coreos-ami-id"
 }
