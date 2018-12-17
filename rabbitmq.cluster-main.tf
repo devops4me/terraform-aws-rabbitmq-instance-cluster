@@ -21,7 +21,7 @@ module rabbitmq-ignition-config
 
 module ec2-instance-cluster
 {
-    source                = "github.com/devops4me/terraform-aws-ec2-cluster-fixed-size"
+    source                = "github.com/devops4me/terraform-aws-ec2-instance-cluster"
 
     in_node_count         = "${ var.in_initial_node_count }"
     in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
