@@ -30,17 +30,3 @@ variable in_ecosystem_name
     description = "The name of this ecosystem which by default is rabbitmq-cluster."
     default = "rabbitmq-cluster"
 }
-
-
-/*
- | --
- | -- This variable can be passed in via the command line or preferably
- | -- using an environment variable like this.
- | --
- | --    export TF_VAR_ssh_public_key='<<public-key-goes-here>>'
- | --
-*/
-variable ssh_public_key
-{
-    description = "The ssh public key usable with the development branch of this module."
-}

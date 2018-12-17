@@ -34,9 +34,6 @@ module ec2-instance-cluster
     in_ecosystem_name     = "${ var.in_ecosystem_name }"
     in_tag_timestamp      = "${ module.resource-tags.out_tag_timestamp }"
     in_tag_description    = "${ module.resource-tags.out_tag_description }"
-
-    in_bastion_subnet_id  = "${ element( module.vpc-network.out_public_subnet_ids, 0 ) }"
-    in_ssh_public_key     = "${var.ssh_public_key}"
 }
 
 
