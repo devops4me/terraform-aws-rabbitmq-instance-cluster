@@ -96,7 +96,7 @@ module http-load-balancer
     in_lb_class           = "application"
     in_is_internal        = false
 
-    in_front_end          = [ "web" ]
+    in_front_end          = [ "http" ]
     in_back_end           = [ "rabbitmq" ]
 
     in_ecosystem_name     = "${ var.in_ecosystem_name }"
