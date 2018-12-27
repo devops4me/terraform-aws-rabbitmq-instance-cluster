@@ -1,16 +1,15 @@
 
 FROM ubuntu:18.04
 
-
 # --->
 # ---> Assume the root user then install git and terraform.
 # --->
 
 USER root
 RUN apt-get update && apt-get --assume-yes install -qq -o=Dpkg::Use-Pty=0 \
-      curl  \
-      git   \
-      tree  \
+      curl \
+      git  \
+      jq   \
       unzip
 
 RUN \
