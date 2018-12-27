@@ -22,21 +22,21 @@ pipeline
         {
             steps
             {
-		sh 'terraform init ..'
+		sh 'terraform init'
             }
         }
         stage('terraform apply')
         {
             steps
             {
-		sh 'terraform apply -auto-approve ..'
+		sh 'terraform apply -auto-approve'
             }
         }
         stage('terraform destroy')
         {
             steps
             {
-		sh 'terraform destroy -auto-approve ..'
+		sh 'terraform destroy -auto-approve'
             }
         }
     }
