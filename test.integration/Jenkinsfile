@@ -8,7 +8,13 @@ pipeline
         AWS_REGION            = credentials( 'safe.aws.region.key' )
     }
 
-    agent { dockerfile true }
+    agent
+    {
+        dockerfile
+        {
+	    dir 'test.integration'
+        }
+    }
 
     stages
     {
@@ -34,4 +40,5 @@ pipeline
             }
         }
     }
+
 }
