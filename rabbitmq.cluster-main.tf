@@ -5,9 +5,9 @@
 ### ---> -------------------- <--- ### || < ------- > || ###
 ### ---> #################### <--- ### || < ####### > || ###
 
-module rabbitmq-ignition-config
+module rabbitmq-cloud-config
 {
-    source        = "github.com/devops4me/terraform-ignition-rabbitmq-config"
+    source        = "github.com/devops4me/rabbitmq-systemd-cloud-config"
     in_node_count = "${ var.in_initial_node_count }"
 }
 
@@ -27,7 +27,7 @@ module ec2-instance-cluster
     in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
     in_security_group_ids = [ "${ module.security-group.out_security_group_id }" ]
     in_ami_id             = "${ module.coreos-ami-id.out_ami_id }"
-    in_user_data          = "${ module.rabbitmq-ignition-config.out_ignition_config }"
+    in_user_data          = "${ module.rabbitmq-cloud-config.out_ignition_config }"
 
     in_route_dependency   = "${ module.vpc-network.out_outgoing_routes }"
 

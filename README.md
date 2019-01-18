@@ -1,5 +1,5 @@
 
-#### Create (in 5 minutes) a RabbitMQ ec2 instance cluster in the AWS cloud. This module pools configuration from a [RabbitMQ service layer](https://github.com/devops4me/terraform-ignition-rabbitmq-config), an [ec2 instance layer](https://github.com/devops4me/terraform-aws-ec2-instance-cluster) and highly reusable network layer modules. It employs [RabbitMQ PerfTest](https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/) for integration and performance testing.
+#### Create (in 5 minutes) a RabbitMQ ec2 instance cluster in the AWS cloud. This module pools configuration from a [RabbitMQ service layer](https://github.com/devops4me/rabbitmq-systemd-cloud-config), an [ec2 instance layer](https://github.com/devops4me/terraform-aws-ec2-instance-cluster) and highly reusable network layer modules. It employs [RabbitMQ PerfTest](https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/) for integration and performance testing.
 
 ---
 
