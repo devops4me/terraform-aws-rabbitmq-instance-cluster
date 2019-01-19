@@ -4,8 +4,8 @@
 ### ############################################ ###
 
 
-output out_rmq_username { value = "${ module.rabbitmq-ignition-config.out_rmq_username }" }
-output out_rmq_password { value = "${ module.rabbitmq-ignition-config.out_rmq_password }" }
+output out_rmq_username { value = "${ module.rabbitmq-cloud-config.out_rmq_username }" }
+output out_rmq_password { value = "${ module.rabbitmq-cloud-config.out_rmq_password }" }
 output out_rmq_http_dns { value = "${ module.http-load-balancer.out_dns_name }"           }
 output out_rmq_amqp_dns { value = "${ module.amqp-load-balancer.out_dns_name }"           }
 output out_rmq_http_url { value = "http://${ module.http-load-balancer.out_dns_name }/#/" }
@@ -24,5 +24,5 @@ output out_rmq_http_url { value = "http://${ module.http-load-balancer.out_dns_n
 */
 output out_rmq_amqp_url
 {
-    value = "amqp://${ module.rabbitmq-ignition-config.out_rmq_username }:${ module.rabbitmq-ignition-config.out_rmq_password }@${ module.amqp-load-balancer.out_dns_name }:5672/%2F"
+    value = "amqp://${ module.rabbitmq-cloud-config.out_rmq_username }:${ module.rabbitmq-cloud-config.out_rmq_password }@${ module.amqp-load-balancer.out_dns_name }:5672/%2F"
 }
