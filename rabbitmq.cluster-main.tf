@@ -7,7 +7,8 @@
 
 module rabbitmq-cloud-config
 {
-    source        = "github.com/devops4me/rabbitmq-systemd-cloud-config"
+    source        = "github.com/devops4me/rabbitmq-fluentd-es-cloud-config"
+###########    source        = "github.com/devops4me/rabbitmq-systemd-cloud-config"
     in_node_count = "${ var.in_initial_node_count }"
 }
 
