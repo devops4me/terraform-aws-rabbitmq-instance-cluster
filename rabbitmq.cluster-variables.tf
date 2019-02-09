@@ -30,3 +30,13 @@ variable in_ecosystem_name
     description = "The name of this ecosystem which by default is rabbitmq-cluster."
     default = "rabbitmq-cluster"
 }
+
+
+### ################# ###
+### in_ssh_public_key ###
+### ################# ###
+
+variable in_ssh_public_key
+{
+    description = "The public key for accessing both the DMZ bastion and the nodes behind enemy lines."
+}

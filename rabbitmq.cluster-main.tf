@@ -10,6 +10,9 @@ module rabbitmq-cloud-config
     source        = "github.com/devops4me/rabbitmq-fluentd-es-cloud-config"
 ###########    source        = "github.com/devops4me/rabbitmq-systemd-cloud-config"
     in_node_count = "${ var.in_initial_node_count }"
+    in_elasticsearch_url = "elasticsearch-901302010-557078750.eu-west-2.elb.amazonaws.com"
+    in_s3_logs_bucket_name = "ecosystem.up.bucket"
+    in_s3_bucket_region = "eu-central-1"
 }
 
 
@@ -25,10 +28,11 @@ module ec2-instance-cluster
     source                = "github.com/devops4me/terraform-aws-ec2-instance-cluster"
 
     in_node_count         = "${ var.in_initial_node_count }"
-    in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
+    in_subnet_ids         = "${ module.vpc-network.out_public_subnet_ids }"
     in_security_group_ids = [ "${ module.security-group.out_security_group_id }" ]
     in_ami_id             = "${ module.coreos-ami-id.out_ami_id }"
     in_user_data          = "${ module.rabbitmq-cloud-config.out_ignition_config }"
+    in_ssh_public_key     = "${ var.in_ssh_public_key }"
 
     in_route_dependency   = "${ module.vpc-network.out_outgoing_routes }"
 
@@ -59,8 +63,8 @@ module vpc-network
 {
     source                 = "github.com/devops4me/terraform-aws-vpc-network"
     in_vpc_cidr            = "10.66.0.0/16"
-    in_num_public_subnets  = 3
-    in_num_private_subnets = 3
+    in_num_public_subnets  = 6
+    in_num_private_subnets = 0
 
     in_ecosystem_name     = "${ var.in_ecosystem_name }"
     in_tag_timestamp      = "${ module.resource-tags.out_tag_timestamp }"
@@ -85,7 +89,6 @@ module vpc-network
  | -- This layer 7 load balancer is slower than its layer 4 cousin
  | -- which is fine as it only services human sys admins.
  | --
-*/
 module http-load-balancer
 {
     source                = "github.com/devops4me/terraform-aws-load-balancer"
@@ -104,6 +107,7 @@ module http-load-balancer
     in_tag_timestamp      = "${ module.resource-tags.out_tag_timestamp }"
     in_tag_description    = "${ module.resource-tags.out_tag_description }"
 }
+*/
 
 
 /*
@@ -119,7 +123,6 @@ module http-load-balancer
  | -- This high performance load balancer does not open packets
  | -- so refuses to accept security groups in its configuration.
  | --
-*/
 module amqp-load-balancer
 {
     source                = "github.com/devops4me/terraform-aws-load-balancer"
@@ -138,6 +141,7 @@ module amqp-load-balancer
     in_tag_timestamp      = "${ module.resource-tags.out_tag_timestamp }"
     in_tag_description    = "${ module.resource-tags.out_tag_description }"
 }
+*/
 
 
 /*
@@ -155,7 +159,7 @@ module amqp-load-balancer
 module security-group
 {
     source         = "github.com/devops4me/terraform-aws-security-group"
-    in_ingress     = [ "rmq-admin", "rmq-tls", "amqp", "amqp-tls", "http", "etcd-client", "etcd-server", "epmd", "rmq-comms" ]
+    in_ingress     = [ "ssh", "https", "rmq-admin", "rmq-tls", "amqp", "amqp-tls", "http", "etcd-client", "etcd-server", "epmd", "rmq-comms" ]
     in_vpc_id      = "${ module.vpc-network.out_vpc_id }"
 
     in_ecosystem_name     = "${ var.in_ecosystem_name }"
