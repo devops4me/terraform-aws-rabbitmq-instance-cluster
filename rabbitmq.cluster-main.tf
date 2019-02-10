@@ -28,7 +28,7 @@ module ec2-instance-cluster
     source                = "github.com/devops4me/terraform-aws-ec2-instance-cluster"
 
     in_node_count         = "${ var.in_initial_node_count }"
-    in_subnet_ids         = "${ module.vpc-network.out_public_subnet_ids }"
+    in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
     in_security_group_ids = [ "${ module.security-group.out_security_group_id }" ]
     in_ami_id             = "${ module.coreos-ami-id.out_ami_id }"
     in_user_data          = "${ module.rabbitmq-cloud-config.out_ignition_config }"
@@ -76,8 +76,8 @@ module vpc-network
 {
     source                 = "github.com/devops4me/terraform-aws-vpc-network"
     in_vpc_cidr            = "10.66.0.0/16"
-    in_num_public_subnets  = 6
-    in_num_private_subnets = 0
+    in_num_public_subnets  = 0
+    in_num_private_subnets = 6
 
     in_ecosystem_name     = "${ var.in_ecosystem_name }"
     in_tag_timestamp      = "${ module.resource-tags.out_tag_timestamp }"
@@ -106,7 +106,7 @@ module http-load-balancer
 {
     source                = "github.com/devops4me/terraform-aws-load-balancer"
     in_vpc_id             = "${ module.vpc-network.out_vpc_id }"
-    in_subnet_ids         = "${ module.vpc-network.out_public_subnet_ids }"
+    in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
     in_security_group_ids = [ "${ module.security-group.out_security_group_id }" ]
     in_ip_addresses       = "${ module.ec2-instance-cluster.out_private_ip_addresses }"
     in_ip_address_count   = "${ var.in_initial_node_count }"
@@ -140,7 +140,7 @@ module amqp-load-balancer
 {
     source                = "github.com/devops4me/terraform-aws-load-balancer"
     in_vpc_id             = "${ module.vpc-network.out_vpc_id }"
-    in_subnet_ids         = "${ module.vpc-network.out_public_subnet_ids }"
+    in_subnet_ids         = "${ module.vpc-network.out_private_subnet_ids }"
     in_security_group_ids = []
     in_ip_addresses       = "${ module.ec2-instance-cluster.out_private_ip_addresses }"
     in_ip_address_count   = "${ var.in_initial_node_count }"
