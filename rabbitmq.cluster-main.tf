@@ -32,13 +32,26 @@ module ec2-instance-cluster
     in_security_group_ids = [ "${ module.security-group.out_security_group_id }" ]
     in_ami_id             = "${ module.coreos-ami-id.out_ami_id }"
     in_user_data          = "${ module.rabbitmq-cloud-config.out_ignition_config }"
-    in_ssh_public_key     = "${ var.in_ssh_public_key }"
+    in_ssh_public_key     = "${ tls_private_key.generated.public_key_openssh }"
 
     in_route_dependency   = "${ module.vpc-network.out_outgoing_routes }"
 
     in_ecosystem_name     = "${ var.in_ecosystem_name }"
     in_tag_timestamp      = "${ module.resource-tags.out_tag_timestamp }"
     in_tag_description    = "${ module.resource-tags.out_tag_description }"
+}
+
+
+/*
+ | -- This generated private key will be ejected into the state file.
+ | -- For long lived scenarios a better strategy is to pass in public
+ | -- keys that have their private counterpart secured.
+ | --
+*/
+resource tls_private_key generated
+{
+    algorithm = "RSA"
+    rsa_bits  = 4096
 }
 
 
